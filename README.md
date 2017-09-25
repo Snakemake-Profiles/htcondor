@@ -32,10 +32,19 @@ Finally, setup the channel order for bioconda:
 
     conda create -n snakemake snakemake python=3.6 pandas cookiecutter
 
+The name (given to `-n`) is mandatory here, because the submission scripts of this profile assume this environment to exist.
+
+#### Step 4: Publish softdrive
+
+Finally, softdrive has to be published with
+
+    publish-my-softdrive
+
+It will take some time (up to half an hour) until other nodes will have access to the update.
 
 ### Deploy profile
 
-To deploy this profile, login to your grid UI change to your desired **working directory** and run
+To deploy this profile, login to your grid UI, change to your desired **working directory** and run
 
     cookiecutter https://github.com/snakemake-profiles/surfsara-grid.git
 

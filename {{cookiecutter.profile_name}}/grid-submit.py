@@ -8,6 +8,7 @@ import os
 import getpass
 import json
 import shutil
+import glob
 
 from snakemake.utils import read_job_properties
 
@@ -23,6 +24,12 @@ jobscript = sys.argv[1]
 job_properties = read_job_properties(jobscript)
 
 commit = subprocess.run(["git", "rev-parse", "HEAD"], stdout=subprocess.PIPE, check=True).stdout.decode().strip()
+source = ".grid-source-{}.tar".format(commit)
+
+if not os.path.exists(source):
+    for f in glob.glob(".grid-source-*.tar"):
+        os.remove(f)
+    subprocess.run(["git", "archive", "--format", "tar", "-o", source, "HEAD"], check=True)
 
 
 with tempfile.TemporaryDirectory() as jobdir:
@@ -52,7 +59,7 @@ with tempfile.TemporaryDirectory() as jobdir:
     shutil.copyfile(jdlpath, "last-job.jdl")
     shutil.copyfile(jobscript, "last-jobscript.sh")
     shutil.copyfile(jobscript, os.path.join(jobdir, "jobscript.sh"))
-    shutil.copyfile("grid-source.tar", os.path.join(jobdir, "grid-source.tar"))
+    shutil.copyfile(source, os.path.join(jobdir, "grid-source.tar"))
 
     workdir = os.getcwd()
     os.chdir(jobdir)
@@ -69,9 +76,6 @@ with tempfile.TemporaryDirectory() as jobdir:
 
     res = json.loads(res.stdout.decode())
     os.chdir(workdir)
-
-with open("grid-jobids.txt", "a") as f:
-    print(res["jobid"], *job_properties["output"], sep="\t", file=f)
 
 # print jobid for use in Snakemake
 print(res["jobid"])
