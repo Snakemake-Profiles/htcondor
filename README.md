@@ -48,6 +48,7 @@ To deploy this profile, login to your grid UI, change to your desired **working 
 
     cookiecutter https://github.com/snakemake-profiles/surfsara-grid.git
 
+When asked for the storage path, insert whatever shall be the place where your data analysis results shall be stored. It has to be a subdirectory of `gridftp.grid.sara.nl:2811/pnfs/grid.sara.nl/data/`. 
 Then, you can run Snakemake with
 
     snakemake --profile surfsara-grid ...
