@@ -1,0 +1,10 @@
+no-shared-fs: true
+default-remote-provider: gfal
+default-remote-prefix: gridftp.grid.sara.nl:2811/pnfs/grid.sara.nl/data/{{cookiecutter.storage_prefix}}
+jobscript: "{{ import os; os.getcwd() }}/grid-jobscript.sh"
+cluster: "{{ import os; os.getcwd() }}/grid-submit.py"
+cluster-status: "{{ import os; os.getcwd() }}/grid-status.py"
+max-jobs-per-second: 1
+max-status-checks-per-second: 10
+restart-times: 5
+local-cores: 1
