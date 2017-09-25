@@ -1,3 +1,4 @@
 {
-    "profile_name": "surfsara-grid"
+    "profile_name": "surfsara-grid",
+    "storage_prefix": "lsgrid/Project_MinE/Tape/Shared/SV/calling"
 }
