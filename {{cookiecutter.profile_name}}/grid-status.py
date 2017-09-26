@@ -23,7 +23,9 @@ for i in range(STATUS_ATTEMPTS):
         # Snakemake runs in a Python 3 environment
         # Hence, we remove the first item from PATH here, such that
         # we have Python 2 again, which is needed by glite-wms-job-status
+        {% raw %}
         res = subprocess.run("PATH=${{PATH#*:}} glite-wms-job-status --json {}".format(jobid), check=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+        {% endraw %}
         res = json.loads(res.stdout.decode())
     except subprocess.CalledProcessError as e:
         if "UI_PROXY_EXPIRED" in e.stdout.decode():
