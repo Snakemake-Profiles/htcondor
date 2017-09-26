@@ -5,7 +5,7 @@ set -e
 
 user=$2
 
-export PATH=/cvmfs/softdrive.nl/${{user}}/Miniconda2/bin:$PATH
+export PATH=/cvmfs/softdrive.nl/$user/Miniconda2/bin:$PATH
 echo "hostname:"
 hostname -f
 which activate
