@@ -34,6 +34,7 @@ if not os.path.exists(source):
 
 with tempfile.TemporaryDirectory() as jobdir:
     jdlpath = os.path.join(jobdir, "job.jdl")
+    {% raw %}
     with open(jdlpath, "w") as jdl:
         jdl.write(textwrap.dedent("""
         Type = "Job";
@@ -55,6 +56,7 @@ with tempfile.TemporaryDirectory() as jobdir:
                     threads=job_properties["threads"],
                     cores=job_properties["threads"] + 2,
                     minutes=job_properties["resources"].get("minutes", 240)))
+    {% endraw %}
 
     shutil.copyfile(jdlpath, "last-job.jdl")
     shutil.copyfile(jobscript, "last-jobscript.sh")
