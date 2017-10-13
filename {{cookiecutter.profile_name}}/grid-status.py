@@ -27,6 +27,7 @@ for i in range(STATUS_ATTEMPTS):
         res = subprocess.run("PATH=${{PATH#*:}} glite-wms-job-status --json {}".format(jobid), check=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
         {% endraw %}
         res = json.loads(res.stdout.decode())
+        break
     except subprocess.CalledProcessError as e:
         if "UI_PROXY_EXPIRED" in e.stdout.decode():
             wait_for_proxy()

@@ -69,6 +69,7 @@ with tempfile.TemporaryDirectory() as jobdir:
     for i in range(10):
         try:
             res = subprocess.run(cmd, check=True, stdout=subprocess.PIPE)
+            break
         except subprocess.CalledProcessError as e:
             if "UI_PROXY_EXPIRED" in e.stdout.decode():
                 wait_for_proxy()
