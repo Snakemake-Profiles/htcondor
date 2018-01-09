@@ -47,8 +47,11 @@ with tempfile.TemporaryDirectory() as jobdir:
         StdError = "stderr.txt";
         SmpGranularity = {threads};
         CPUNumber = {threads};
+        RetryCount = 0;
+        ShallowRetryCount = 0;
         Requirements = other.GlueCEPolicyMaxWallClockTime >= {minutes} &&
-                       other.GlueHostArchitectureSMPSize >= {cores};
+                       other.GlueHostArchitectureSMPSize >= {cores} && 
+                       RegExp("gina", other.GlueCEUniqueID);
         InputSandbox = {{"jobscript.sh", "grid-source.tar"}};
         OutputSandbox = {{"stdout.txt","stderr.txt"}};
         """).format(commit=commit,

@@ -34,7 +34,9 @@ for i in range(STATUS_ATTEMPTS):
             continue
         if i >= STATUS_ATTEMPTS - 1:
             if "already purged" in e.stdout.decode():
-                print("purged")
+                # we know nothing about this job, so it is safer to consider
+                # it failed and rerun
+                print("failed")
                 exit(0)
             print("glite-wms-job-status error: ", e.stdout, file=sys.stderr)
             raise e
