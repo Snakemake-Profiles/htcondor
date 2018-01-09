@@ -1,5 +1,5 @@
 no-shared-fs: true
-default-remote-provider: gfal
+default-remote-provider: gridftp
 default-remote-prefix: "gridftp.grid.sara.nl:2811/pnfs/grid.sara.nl/data/{{cookiecutter.storage_prefix}}"
 jobscript: "grid-jobscript.sh"
 cluster: "grid-submit.py"
