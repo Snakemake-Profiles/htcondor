@@ -44,8 +44,10 @@ It will take some time (up to half an hour) until other nodes will have access t
 
 ### Deploy profile
 
-To deploy this profile, login to your grid UI, change to your desired **working directory** and run
+To deploy this profile, login to your grid UI and run
 
+    mkdir -p ~/.config/snakemake
+    cd ~/.config/snakemake
     cookiecutter https://github.com/snakemake-profiles/surfsara-grid.git
 
 When asked for the storage path, insert whatever shall be the place where your data analysis results shall be stored. It has to be a subdirectory of `gridftp.grid.sara.nl:2811/pnfs/grid.sara.nl/data/`. 
