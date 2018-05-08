@@ -20,12 +20,8 @@ jobid = sys.argv[1]
 # try to get status 10 times
 for i in range(STATUS_ATTEMPTS):
     try:
-        # Snakemake runs in a Python 3 environment
-        # Hence, we remove the first item from PATH here, such that
-        # we have Python 2 again, which is needed by glite-wms-job-status
-        {% raw %}
-        res = subprocess.run("PATH=${{PATH#*:}} glite-wms-job-status --json {}".format(jobid), check=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
-        {% endraw %}
+        cmd = "glite-wms-job-status --json {}".format(jobid)
+        res = subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
         res = json.loads(res.stdout.decode())
         break
     except subprocess.CalledProcessError as e:
