@@ -1,3 +1,4 @@
 {
-    "profile_name": "htcondor"
+    "profile_name": "htcondor",
+    "htcondor_log_dir": "/net/data_lhcb1b/user/jheuel/.condor_jobs"
 }

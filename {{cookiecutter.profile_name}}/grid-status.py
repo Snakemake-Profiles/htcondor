@@ -13,7 +13,7 @@ def print_and_exit(s):
 
 jobID, UUID, clusterID = sys.argv[1].split('_')
 
-jobDir = '/net/data_lhcb1b/user/jheuel/.condor_jobs/{}_{}'.format(jobID, UUID)
+jobDir = '{{cookiecutter.htcondor_log_dir}}/{}_{}'.format(jobID, UUID)
 jobLog = join(jobDir, 'condor.log')
 
 try:

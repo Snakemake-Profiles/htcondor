@@ -13,7 +13,7 @@ jobscript = sys.argv[1]
 job_properties = read_job_properties(jobscript)
 
 UUID = uuid4()  # random UUID
-jobDir = '/net/data_lhcb1b/user/jheuel/.condor_jobs/{}_{}'.format(job_properties['jobid'], UUID)
+jobDir = '{{cookiecutter.htcondor_log_dir}}/{}_{}'.format(job_properties['jobid'], UUID)
 makedirs(jobDir, exist_ok=True)
 
 # properties = {
