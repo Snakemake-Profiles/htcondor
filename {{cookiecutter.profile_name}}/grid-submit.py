@@ -16,21 +16,6 @@ UUID = uuid4()  # random UUID
 jobDir = '{{cookiecutter.htcondor_log_dir}}/{}_{}'.format(job_properties['jobid'], UUID)
 makedirs(jobDir, exist_ok=True)
 
-# properties = {
-    # "type": "single",
-    # "rule": "ls",
-    # "local": false,
-    # "input": [],
-    # "output": ["directory.txt"],
-    # "wildcards": {},
-    # "params": {},
-    # "log": [],
-    # "threads": 1,
-    # "resources": {},
-    # "jobid": 1,
-    # "cluster": {}
-# }
-
 sub = htcondor.Submit({
     'executable':  '/bin/bash',
     'arguments':   jobscript,
