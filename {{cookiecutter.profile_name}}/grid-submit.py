@@ -17,13 +17,18 @@ jobDir = '{{cookiecutter.htcondor_log_dir}}/{}_{}'.format(job_properties['jobid'
 makedirs(jobDir, exist_ok=True)
 
 sub = htcondor.Submit({
-    'executable':  '/bin/bash',
-    'arguments':   jobscript,
-    'max_retries': '5',
-    'log':         join(jobDir, 'condor.log'),
-    'error':       join(jobDir, 'condor.err'),
-    'getenv':      'True',
+    'executable':   '/bin/bash',
+    'arguments':    jobscript,
+    'max_retries':  '5',
+    'log':          join(jobDir, 'condor.log'),
+    'error':        join(jobDir, 'condor.err'),
+    'getenv':       'True',
+    'request_cpus': str(job_properties['threads']),
 })
+
+request_memory = job_properties['resources'].get('mem_mb', None)
+if request_memory is not None:
+    sub['request_memory'] = str(request_memory)
 
 schedd = htcondor.Schedd()
 with schedd.transaction() as txn:
