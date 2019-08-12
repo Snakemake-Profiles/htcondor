@@ -4,6 +4,7 @@ This profile configures Snakemake to submit jobs to a HTCondor cluster.
 
 ### Prerequisites
 The profile makes use of the HTCondor python bindings which can be installed with 
+
     pip install --user htcondor
 
 ### Deploy profile
