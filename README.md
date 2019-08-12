@@ -1,4 +1,4 @@
-# HTCondor
+# HTCondor Snakemake profile
 
 This profile configures Snakemake to submit jobs to a HTCondor cluster.
 
