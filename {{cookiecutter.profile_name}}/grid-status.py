@@ -16,10 +16,16 @@ jobID, UUID, clusterID = sys.argv[1].split('_')
 jobDir = '{{cookiecutter.htcondor_log_dir}}/{}_{}'.format(jobID, UUID)
 jobLog = join(jobDir, 'condor.log')
 
+failed_states = [
+    JobEventType.JOB_HELD,
+    JobEventType.JOB_ABORTED,
+    JobEventType.EXECUTABLE_ERROR,
+]
+
 try:
     jel = htcondor.JobEventLog(join(jobLog))
     for event in jel.events(stop_after=5):
-        if event.type is JobEventType.JOB_ABORTED:
+        if event.type in failed_states:
             print_and_exit('failed')
         if event.type is JobEventType.JOB_TERMINATED:
             if event['ReturnValue'] == 0:
