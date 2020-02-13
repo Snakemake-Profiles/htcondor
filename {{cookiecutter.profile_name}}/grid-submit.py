@@ -21,6 +21,7 @@ sub = htcondor.Submit({
     'arguments':    jobscript,
     'max_retries':  '5',
     'log':          join(jobDir, 'condor.log'),
+    'output':       join(jobDir, 'condor.out'),
     'error':        join(jobDir, 'condor.err'),
     'getenv':       'True',
     'request_cpus': str(job_properties['threads']),
