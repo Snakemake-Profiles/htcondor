@@ -19,7 +19,8 @@ To deploy this profile run
     cd ~/.config/snakemake
     cookiecutter https://github.com/Snakemake-Profiles/htcondor.git
 
-You will be asked for the name of the profile and for a path where the HTCondor logs will be stored. The logs will be used to update the status of submitted jobs (as recommended in the [documentation of the HTCondor python bindings](https://htcondor-python.readthedocs.io/en/latest/scalable_job_tracking.html#event-based-tracking)).
+You will be asked for the name of the profile and for a path where the HTCondor logs will be stored. 
+The logs will be used to update the status of submitted jobs (as recommended in the [documentation of the HTCondor Python bindings](https://htcondor.readthedocs.io/en/latest/apis/python-bindings/advanced_tutorials/scalable_job_tracking.html)).
 
 Then, you can run Snakemake with
 
