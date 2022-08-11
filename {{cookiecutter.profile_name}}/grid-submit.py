@@ -31,6 +31,10 @@ request_memory = job_properties['resources'].get('mem_mb', None)
 if request_memory is not None:
     sub['request_memory'] = str(request_memory)
 
+request_disk = job_properties['resources'].get('disk_mb', None)
+if request_disk is not None:
+    sub['request_disk'] = str(request_disk)
+
 schedd = htcondor.Schedd()
 with schedd.transaction() as txn:
     clusterID = sub.queue(txn)
