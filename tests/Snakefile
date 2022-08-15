@@ -1,0 +1,17 @@
+rule test_submit:
+    output: "test_submit.txt"
+    shell: "echo test_submit > {output}"
+
+
+rule test_resources_mem:
+    resources:
+        mem_mb=99
+    output: "resources_mem.txt"
+    shell: "echo test_resources_mem > {output}; sleep 60"
+
+
+rule test_resources_disk:
+    resources:
+        disk_mb=99
+    output: "resources_disk.txt"
+    shell: "echo test_resources_disk > {output}; sleep 60"

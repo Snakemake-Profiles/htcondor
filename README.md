@@ -27,3 +27,15 @@ Then, you can run Snakemake with
     snakemake --profile htcondor ...
 
 so that jobs are submitted to the cluster. If Snakemake is killed and restarted afterwards, it will automatically resume still running jobs.
+
+
+### Tests
+The tests are heavily inspired by the tests for the slurm snakemake profile. They can be run from the base directory by 
+```
+pytest
+```
+
+Because the tests will try to submit jobs they need to be started from a HTCondor submit node. To run the tests from non-cluster machines or from github CI the [HTCondor/mini docker container](https://github.com/htcondor/htcondor/blob/master/build/docker/services/README.md) can be started by:
+```
+DOCKER_COMPOSE=tests/docker-compose.yaml ./tests/deploystack.sh
+```

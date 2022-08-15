@@ -1,0 +1,37 @@
+version: '3'
+services:
+  snakemake:
+    image: quay.io/biocontainers/snakemake:7.3.2--hdfd78af_0
+    hostname: htcondorctl
+    command: /bin/bash
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1000M
+        reservations:
+          cpus: '0.5'
+          memory: 1000M
+    tty: true
+    stdin_open: true
+    working_dir: /tmp
+    volumes:
+      - usr:/usr/
+
+  htcondor:
+    image: htcondor/mini:el7
+    hostname: htcondorctl
+    stdin_open: true
+    tty: true
+    working_dir: /tmp
+    environment:
+      PATH: "/opt/local/bin:$PATH"
+      SNAKEMAKE_PATH: "/opt/local/bin"
+      LC_ALL: en_US.UTF-8
+      LANG: en_US.UTF-8
+    volumes:
+      # Mount snakemake image usr volume to opt
+      - usr:/opt/
+      - /tmp:/tmp
+volumes:
+  usr:
