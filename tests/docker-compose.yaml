@@ -1,0 +1,38 @@
+version: '3'
+services:
+  snakemake:
+    image: ${SNAKEMAKE_IMAGE}
+    hostname: htcondorctl
+    command: /bin/bash
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1000M
+        reservations:
+          cpus: '0.5'
+          memory: 1000M
+    tty: true
+    stdin_open: true
+    working_dir: /tmp
+    volumes:
+      - usr:/usr/
+
+  htcondor:
+    image: ${HTCONDOR_IMAGE}
+    hostname: htcondorctl
+    stdin_open: true
+    tty: true
+    working_dir: /tmp
+    environment:
+      PATH: "/opt/local/bin:$PATH"
+      SNAKEMAKE_PATH: "/opt/local/bin"
+      LC_ALL: en_US.UTF-8
+      LANG: en_US.UTF-8
+    volumes:
+      # Mount snakemake image usr volume to opt
+      - usr:/opt/
+      - /tmp:/tmp
+
+volumes:
+  usr:
