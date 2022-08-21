@@ -1,0 +1,69 @@
+name: Test SnakemakeProfiles/htcondor
+env:
+  SNAKEMAKE_IMAGE: quay.io/biocontainers/snakemake:7.3.2--hdfd78af_0
+  HTCONDOR_IMAGE: htcondor/mini:el7
+  DOCKER_COMPOSE: tests/docker-compose.yaml
+
+on: [push, pull_request]
+
+jobs:
+  htcondortest:
+    name: Test htcondor profile in docker containers
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v2
+      - run: mkdir -p ~/image-cache
+      - name: cache-conda
+        uses: actions/cache@v2
+        env:
+          CACHE_NUMBER: 0
+        with:
+          path: ~/conda_pkgs_dir
+          key: ${{ runner.os }}-conda-${{ env.CACHE_NUMBER }}-${{ hashFiles('test-environment.yml') }}
+
+      - uses: actions/cache@v2
+        id: cache-images
+        env:
+          CACHE_NUMBER: 0
+        with:
+          path: ~/image-cache
+          key: image-cache-${{ runner.os }}-${{ env.CACHE_NUMBER }}-${{ env.SNAKEMAKE_IMAGE }}-${{ env.HTCONDOR_IMAGE }}
+
+      - name: install miniconda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          mamba-version: "*"
+          channels: conda-forge,bioconda,default
+          channel-priority: true
+          environment-file: test-environment.yml
+          use-only-tar-bz2: true
+
+      - name: docker swarm init
+        run: docker swarm init
+
+      - if: steps.cache-images.outputs.cache-hit == 'true'
+        run: docker load -i ~/image-cache/snakemake.tar
+
+      - if: steps.cache-images.outputs.cache-hit == 'true'
+        run: docker load -i ~/image-cache/htcondor.tar
+
+      - name: docker deploy
+        shell: bash -l {0}
+        env:
+          DOCKER_COMPOSE: ${{ env.DOCKER_COMPOSE }}
+          SNAKEMAKE_IMAGE: ${{ env.SNAKEMAKE_IMAGE }}
+          HTCONDOR_IMAGE: ${{ env.HTCONDOR_IMAGE }}
+        run: ./tests/deploystack.sh
+
+      - if: steps.cache-images.outputs.cache-hit != 'true'
+        run: docker save -o ~/image-cache/snakemake.tar ${{ env.SNAKEMAKE_IMAGE }}
+
+      - if: steps.cache-images.outputs.cache-hit != 'true'
+        run: docker save -o ~/image-cache/htcondor.tar ${{ env.HTCONDOR_IMAGE }}
+
+      - name: run tests
+        shell: bash -l {0}
+        run: |
+          pytest -v -s tests/test_cookie.py
+          pytest -v -s tests/test_submit.py

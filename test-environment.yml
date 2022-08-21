@@ -1,0 +1,17 @@
+channels:
+  - conda-forge
+  - bioconda
+  - default
+dependencies:
+  - python
+  - pip
+  - pytest
+  - pytest-runner
+  - docker-py >=3.0
+  - cookiecutter
+  - pep8
+  - pytest-cookies >=0.4.0
+  - pytest-timeout
+  - pyflakes
+  - urllib3
+  - cryptography <=37.0.0
