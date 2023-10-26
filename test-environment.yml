@@ -7,11 +7,11 @@ dependencies:
   - pip
   - pytest
   - pytest-runner
-  - docker-py >=3.0
+  - docker-py
   - cookiecutter
   - pep8
-  - pytest-cookies >=0.4.0
+  - pytest-cookies
   - pytest-timeout
   - pyflakes
   - urllib3
-  - cryptography <=37.0.0
+  - cryptography
