@@ -1,7 +1,7 @@
 name: Test SnakemakeProfiles/htcondor
 env:
-  SNAKEMAKE_IMAGE: quay.io/biocontainers/snakemake:7.3.2--hdfd78af_0
-  HTCONDOR_IMAGE: htcondor/mini:el7
+  SNAKEMAKE_IMAGE: quay.io/biocontainers/snakemake:7.32.4--hdfd78af_1
+  HTCONDOR_IMAGE: htcondor/mini:23.0-el8
   DOCKER_COMPOSE: tests/docker-compose.yaml
 
 on: [push, pull_request]
@@ -33,11 +33,9 @@ jobs:
       - name: install miniconda
         uses: conda-incubator/setup-miniconda@v2
         with:
-          mamba-version: "*"
-          channels: conda-forge,bioconda,default
+          channels: conda-forge,bioconda,defaults
           channel-priority: true
           environment-file: test-environment.yml
-          use-only-tar-bz2: true
 
       - name: docker swarm init
         run: docker swarm init

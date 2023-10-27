@@ -6,8 +6,8 @@
 DOCKER_COMPOSE=${DOCKER_COMPOSE:=docker-compose.yaml}
 
 # Images
-SNAKEMAKE_IMAGE=${SNAKEMAKE_IMAGE:=quay.io/biocontainers/snakemake:7.3.2--hdfd78af_0}
-HTCONDORIMAGE=${HTCONDORIMAGE:=htcondor/mini:el7}
+SNAKEMAKE_IMAGE=${SNAKEMAKE_IMAGE:=quay.io/biocontainers/snakemake:7.32.4--hdfd78af_1}
+HTCONDORIMAGE=${HTCONDORIMAGE:=htcondor/mini:23.0-el8}
 
 docker pull $SNAKEMAKE_IMAGE
 docker pull $HTCONDORIMAGE
