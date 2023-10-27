@@ -38,8 +38,7 @@ if request_disk is not None:
     sub["request_disk"] = str(request_disk)
 
 schedd = htcondor.Schedd()
-with schedd.transaction() as txn:
-    clusterID = sub.queue(txn)
+clusterID = schedd.submit(sub)
 
 # print jobid for use in Snakemake
 print("{}_{}_{}".format(job_properties["jobid"], UUID, clusterID))
