@@ -33,5 +33,6 @@ services:
       # Mount snakemake image usr volume to opt
       - usr:/opt/
       - /tmp:/tmp
+
 volumes:
   usr:
