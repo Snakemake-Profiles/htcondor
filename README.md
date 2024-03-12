@@ -3,13 +3,13 @@
 This profile configures Snakemake to submit jobs to a HTCondor cluster.
 
 ### Prerequisites
-The profile makes use of the HTCondor python bindings which can be installed with 
+The profile makes use of the HTCondor python bindings (and  `snakemake-executor-plugin-cluster-generic` for snakemake > 8) which can be installed with 
 
-    pip install --user htcondor
+    pip install --user htcondor snakemake-executor-plugin-cluster-generic 
     
 or using Anaconda with
 
-    conda install -c conda-forge python-htcondor
+    conda install -c conda-forge -c bioconda python-htcondor snakemake-executor-plugin-cluster-generic
 
 ### Deploy profile
 
@@ -39,3 +39,6 @@ Because the tests will try to submit jobs they need to be started from a HTCondo
 ```
 DOCKER_COMPOSE=tests/docker-compose.yaml ./tests/deploystack.sh
 ```
+
+## Migration to snakemake v8
+If using snakemake version 8 or higher, refer to [the migration guide](https://snakemake.readthedocs.io/en/stable/getting_started/migration.html). For this profile, use `config.v8+.yaml` instead of `config.yaml`
