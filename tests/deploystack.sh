@@ -7,7 +7,7 @@ DOCKER_COMPOSE=${DOCKER_COMPOSE:=docker-compose.yaml}
 
 # Images
 SNAKEMAKE_IMAGE=${SNAKEMAKE_IMAGE:=quay.io/biocontainers/snakemake:7.32.4--hdfd78af_1}
-HTCONDORIMAGE=${HTCONDORIMAGE:=htcondor/mini:23.0-el8}
+HTCONDORIMAGE=${HTCONDORIMAGE:=htcondor/mini:23.5.2-el8}
 
 docker pull $SNAKEMAKE_IMAGE
 docker pull $HTCONDORIMAGE
@@ -72,4 +72,4 @@ fi
 
 # Add htcondor to snakemake
 CONTAINER=$(docker ps | grep cookiecutter-htcondor_snakemake | awk '{print $1}')
-docker exec $CONTAINER pip install htcondor
+docker exec $CONTAINER pip install htcondor==23.5.2

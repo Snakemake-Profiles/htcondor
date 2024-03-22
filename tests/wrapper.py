@@ -211,28 +211,6 @@ class SnakemakeRunner:
             return "\n".join(self._output)
         return self._output
 
-    @property
-    def external_jobid(self):
-        if len(self._external_jobid) == 0:
-            try:
-                m = re.findall(self._jobid_regex, self.output)
-                if m is not None:
-                    self._external_jobid = [int(x) for y in m for x in y if x]
-            except Exception as e:
-                print(e)
-            finally:
-                (_, out) = self.exec_run('squeue -h -o "%.50j,%.10i"', stream=False)
-                try:
-                    for res in out.decode().split("\n"):
-                        if self.jobname in res:
-                            self._external_jobid.append(
-                                re.search(r" (\d+)$", res.strip()).group(1)
-                            )
-                except Exception as e:
-                    print(e)
-
-        return self._external_jobid
-
     def wait_while_status(self, status, timeout=60, tdelta=10, verbose=False):
         """Wait for status to change"""
         t = 0
@@ -292,9 +270,10 @@ class SnakemakeRunner:
             except Exception as e:
                 print(e)
             finally:
-                (_, out) = self.exec_run("condor_q --json", stream=False)
+                (_, out) = self.exec_run("condor_q --allusers --json", stream=False)
                 try:
                     jobinfos = json.loads(out)
+                    print(jobinfos)
                 except json.decoder.JSONDecodeError:
                     return []
                 for job in jobinfos:

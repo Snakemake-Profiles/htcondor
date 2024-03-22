@@ -1,9 +1,4 @@
 name: Test SnakemakeProfiles/htcondor
-env:
-  SNAKEMAKE_IMAGE: quay.io/biocontainers/snakemake:7.32.4--hdfd78af_1
-  HTCONDOR_IMAGE: htcondor/mini:23.0-el8
-  DOCKER_COMPOSE: tests/docker-compose.yaml
-
 on: [push, pull_request]
 
 jobs:
@@ -11,6 +6,14 @@ jobs:
     name: Test htcondor profile in docker containers
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    strategy:
+      matrix:
+        snakemake_image:
+          - "quay.io/biocontainers/snakemake:7.32.4--hdfd78af_1"
+          - "quay.io/biocontainers/snakemake:8.9.0--hdfd78af_0"
+        htcondor_image:
+          - "htcondor/mini:23.5.2-el8"
+
     steps:
       - uses: actions/checkout@v2
       - run: mkdir -p ~/image-cache
@@ -28,7 +31,7 @@ jobs:
           CACHE_NUMBER: 0
         with:
           path: ~/image-cache
-          key: image-cache-${{ runner.os }}-${{ env.CACHE_NUMBER }}-${{ env.SNAKEMAKE_IMAGE }}-${{ env.HTCONDOR_IMAGE }}
+          key: image-cache-${{ runner.os }}-${{ env.CACHE_NUMBER }}-${{ matrix.snakemake_image }}-${{ matrix.htcondor_image }}
 
       - name: install miniconda
         uses: conda-incubator/setup-miniconda@v2
@@ -49,16 +52,16 @@ jobs:
       - name: docker deploy
         shell: bash -l {0}
         env:
-          DOCKER_COMPOSE: ${{ env.DOCKER_COMPOSE }}
-          SNAKEMAKE_IMAGE: ${{ env.SNAKEMAKE_IMAGE }}
-          HTCONDOR_IMAGE: ${{ env.HTCONDOR_IMAGE }}
+          DOCKER_COMPOSE: "tests/docker-compose.yaml"
+          SNAKEMAKE_IMAGE: ${{ matrix.snakemake_image }}
+          HTCONDOR_IMAGE: ${{ matrix.htcondor_image }}
         run: ./tests/deploystack.sh
 
       - if: steps.cache-images.outputs.cache-hit != 'true'
-        run: docker save -o ~/image-cache/snakemake.tar ${{ env.SNAKEMAKE_IMAGE }}
+        run: docker save -o ~/image-cache/snakemake.tar ${{ matrix.snakemake_image }}
 
       - if: steps.cache-images.outputs.cache-hit != 'true'
-        run: docker save -o ~/image-cache/htcondor.tar ${{ env.HTCONDOR_IMAGE }}
+        run: docker save -o ~/image-cache/htcondor.tar ${{ matrix.htcondor_image }}
 
       - name: run tests
         shell: bash -l {0}
