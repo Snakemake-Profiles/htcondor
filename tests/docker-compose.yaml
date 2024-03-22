@@ -1,7 +1,7 @@
 version: '3'
 services:
   snakemake:
-    image: quay.io/biocontainers/snakemake:7.3.2--hdfd78af_0
+    image: ${SNAKEMAKE_IMAGE}
     hostname: htcondorctl
     command: /bin/bash
     deploy:
@@ -19,7 +19,7 @@ services:
       - usr:/usr/
 
   htcondor:
-    image: htcondor/mini:el7
+    image: ${HTCONDOR_IMAGE}
     hostname: htcondorctl
     stdin_open: true
     tty: true

@@ -118,7 +118,7 @@ def htcondor(request):
     """HTCondor fixture
 
     Return relevant container depending on environment. First look for
-    sbatch command to determine whether we are on a system running the
+    condor_q command to determine whether we are on a system running the
     HTCondor scheduler. Second, try deploying a docker stack to run htcondor
     locally.
 
