@@ -37,6 +37,16 @@ request_disk = job_properties["resources"].get("disk_mb", None)
 if request_disk is not None:
     sub["request_disk"] = str(request_disk)
 
+{%- if cookiecutter.location_cern %}
+
+# Add kerberos credentials
+# c.f. https://batchdocs.web.cern.ch/local/pythonapi.html
+col = htcondor.Collector()
+credd = htcondor.Credd()
+credd.add_user_cred(htcondor.CredTypes.Kerberos, None)
+sub["MY.SendCredential"] = "True"
+{%- endif %}
+
 schedd = htcondor.Schedd()
 clusterID = schedd.submit(sub)
 
