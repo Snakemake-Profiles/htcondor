@@ -1,4 +1,5 @@
 {
     "profile_name": "htcondor",
-    "htcondor_log_dir": "/net/data_lhcb1b/user/jheuel/.condor_jobs"
+    "htcondor_log_dir": "/net/data_lhcb1b/user/jheuel/.condor_jobs",
+    "location_cern": false
 }
