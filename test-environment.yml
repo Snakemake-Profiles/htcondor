@@ -16,3 +16,4 @@ dependencies:
   - urllib3
   - cryptography
   - psutil
+  - snakemake-executor-plugin-cluster-generic
